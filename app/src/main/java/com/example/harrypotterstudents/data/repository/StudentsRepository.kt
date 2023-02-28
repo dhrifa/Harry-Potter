@@ -9,12 +9,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import retrofit2.Response
+import javax.inject.Inject
 
 interface StudentsRepository {
     suspend fun getStudents(): Flow<NetworkResult<Students>>
 }
 
-class StudentsRepositoryImpl(
+class StudentsRepositoryImpl @Inject constructor(
     private val studentApi: StudentApi,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : StudentsRepository {

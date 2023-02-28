@@ -6,16 +6,16 @@ import org.koin.core.context.startKoin
 
 class HarryPotterApp: Application() {
 
-    override fun onCreate() {
-        super.onCreate()
-
-        startKoin {
-            androidContext(this@HarryPotterApp)
-            modules(listOf(
-                networkModule,
-                repoModule,
-                viewModelModule
-            ))
-        }
-    }
+//    override fun onCreate() {
+//        super.onCreate()
+//
+//        startKoin {
+//            androidContext(this@HarryPotterApp)
+//            modules(listOf(
+//                networkModule,
+//                repoModule,
+//                viewModelModule
+//            ))
+//        }
+//    }
 }

@@ -1,6 +1,8 @@
 package com.example.harrypotterstudents.ui.students
 
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import com.example.harrypotterstudents.R
 import androidx.compose.foundation.layout.*
@@ -81,6 +83,7 @@ fun StudentItem(
                 .clickable {
                     Log.d(TAG, "StudentItem: $student")
                     studentsViewModel.setSelected(student)
+//                   showMessage(LocalContext.current, "")
                     navController.navigate(route = "$SHOW_DETAIL_SCREEN/${student}")
                 }) {
 
@@ -115,4 +118,8 @@ fun StudentItem(
             }
         }
     }
+}
+
+fun showMessage(context: Context, message:String){
+    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }

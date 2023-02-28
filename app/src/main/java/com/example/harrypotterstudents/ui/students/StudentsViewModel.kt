@@ -8,9 +8,12 @@ import com.example.harrypotterstudents.data.model.Student
 import com.example.harrypotterstudents.data.model.Students
 import com.example.harrypotterstudents.data.repository.StudentsRepository
 import com.example.harrypotterstudents.util.NetworkResult
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class StudentsViewModel(
+@HiltViewModel
+class StudentsViewModel @Inject constructor(
     private val studentsRepository: StudentsRepository
 ) : ViewModel() {
     init {

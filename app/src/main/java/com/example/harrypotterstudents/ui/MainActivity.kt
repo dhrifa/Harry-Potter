@@ -1,4 +1,4 @@
-package com.example.harrypotterstudents
+package com.example.harrypotterstudents.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -17,21 +17,17 @@ import com.example.harrypotterstudents.ui.navigation.NavGraph
 import com.example.harrypotterstudents.ui.students.Students
 import com.example.harrypotterstudents.ui.students.StudentsViewModel
 import com.example.harrypotterstudents.ui.theme.HarryPotterStudentsTheme
+import dagger.hilt.android.AndroidEntryPoint
 import org.koin.androidx.compose.koinViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             HarryPotterStudentsTheme {
-                // A surface container using the 'background' color from the theme
-//                Surface(
-//                    modifier = Modifier.fillMaxSize(),
-//                    color = MaterialTheme.colorScheme.background
-//                ) {
-//                    val viewModel = koinViewModel<StudentsViewModel>()
                     StudentsListScreen()//studentsViewModel = viewModel, )
-//                }
             }
         }
     }
@@ -40,8 +36,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun StudentsListScreen() {
     val navController = rememberNavController()
-    val   studentsViewModel= koinViewModel<StudentsViewModel>()
-  //  val   showListingViewModel: SearchShowsViewModel = hiltViewModel()
+//    val   studentsViewModel= koinViewModel<StudentsViewModel>()
+    val   studentsViewModel: StudentsViewModel = hiltViewModel()
 
     Scaffold(
         bottomBar = { BottomNav(navController = navController) },

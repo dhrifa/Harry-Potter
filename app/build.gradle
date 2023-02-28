@@ -105,6 +105,9 @@ dependencies {
     //hilt
     implementation 'com.google.dagger:hilt-android:2.45'
     kapt 'com.google.dagger:hilt-compiler:2.45'
+    //hilt navigation commpose
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+
 
     //koin
     implementation "io.insert-koin:koin-core:3.3.3"
