@@ -18,28 +18,28 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import coil.ImageLoader
 import coil.compose.AsyncImage
-import coil.request.ImageRequest
+import coil.decode.SvgDecoder
 import com.example.harrypotterstudents.data.model.Student
+import com.example.harrypotterstudents.ui.navigation.SHOW_DETAIL_SCREEN
 import com.example.harrypotterstudents.util.NetworkResult
 
 private const val TAG = "StudentsList"
 
 @Composable
-fun StudentScreen(
+fun StudentsListScreen(
+    navController: NavController,
     studentsViewModel: StudentsViewModel,
-   // selected: Student?,
+    // selected: Student?,
 ) {
     val state = studentsViewModel.students.observeAsState().value
-    val selected = studentsViewModel.selected.observeAsState().value
+
     when (state) {
         is NetworkResult.Loading -> {}
         is NetworkResult.Success -> {
-            if (selected == null) {
-                Students(state.response) {}
-            } else {
-                Student( selected)
-            }
+            Students(navController, studentsViewModel, state.response) {}
         }
         is NetworkResult.Error -> {}
         else -> {}
@@ -48,32 +48,48 @@ fun StudentScreen(
 
 @Composable
 fun Students(
+    navController: NavController,
+    studentsViewModel: StudentsViewModel,
     students: ArrayList<Student>,
     onSelectionChange: ((Student) -> Unit)?
 ) {
     LazyColumn() {
         itemsIndexed(items = students) { index, student ->
             StudentItem(
-                student,
-                onSelectionChange
+                navController,
+                studentsViewModel,
+                student
             )
         }
     }
 }
 
 @Composable
-fun StudentItem(student: Student, onSelectionChange: ((Student) -> Unit)?) {
+fun StudentItem(
+    navController: NavController,
+    studentsViewModel: StudentsViewModel,
+    student: Student
+) {
     Card(
         modifier = Modifier
-            .padding(10.dp)
+            .padding(4.dp)
             .fillMaxWidth()
     ) {
         Row(verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.clickable {
-                Log.d(TAG, "StudentItem: $student")
-                onSelectionChange?.invoke(student)
-            }) {
+            modifier = Modifier
+                .padding(10.dp)
+                .clickable {
+                    Log.d(TAG, "StudentItem: $student")
+                    studentsViewModel.setSelected(student)
+                    navController.navigate(route = "$SHOW_DETAIL_SCREEN/${student}")
+                }) {
+
             AsyncImage(
+                imageLoader = ImageLoader.Builder(LocalContext.current)
+                    .components {
+                        add(SvgDecoder.Factory())
+                    }
+                    .build(),
                 model = student.image,
 //               ImageRequest.Builder(LocalContext.current)
 //                   .data(student.image)
@@ -84,7 +100,8 @@ fun StudentItem(student: Student, onSelectionChange: ((Student) -> Unit)?) {
                 placeholder = painterResource(R.drawable.ic_loading),
                 modifier = Modifier
                     .clip(RoundedCornerShape(20.dp))
-                    .size(58.dp)
+                    .size(100.dp)
+
             )
             Column(
                 modifier = Modifier
@@ -92,8 +109,8 @@ fun StudentItem(student: Student, onSelectionChange: ((Student) -> Unit)?) {
                     .padding(10.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = student.name ?: "Invalid name")
-                Text(text = student.dateOfBirth.toString() ?: "Invalid date of birth")
+                Text(text = "Actor : " + (student.name ?: "Invalid name"))
+                Text(text = "DOB :" + (student.dateOfBirth ?: "Invalid DOB"))
                 Text(text = if (student.alive == true) "Alive" else "Passed away")
             }
         }
