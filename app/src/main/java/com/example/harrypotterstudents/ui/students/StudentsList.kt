@@ -27,6 +27,7 @@ import coil.decode.SvgDecoder
 import com.example.harrypotterstudents.data.model.Student
 import com.example.harrypotterstudents.ui.navigation.SHOW_DETAIL_SCREEN
 import com.example.harrypotterstudents.util.NetworkResult
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 private const val TAG = "StudentsList"
 
@@ -70,21 +71,23 @@ fun Students(
 fun StudentItem(
     navController: NavController,
     studentsViewModel: StudentsViewModel,
-    student: Student
+    student: Student,
 ) {
     Card(
         modifier = Modifier
             .padding(4.dp)
             .fillMaxWidth()
     ) {
+        val context = LocalContext.current
         Row(verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .padding(10.dp)
                 .clickable {
                     Log.d(TAG, "StudentItem: $student")
                     studentsViewModel.setSelected(student)
-//                   showMessage(LocalContext.current, "")
-                    navController.navigate(route = "$SHOW_DETAIL_SCREEN/${student}")
+
+                   showMessage(context, "${student.name}")
+                    navController.navigate(route = "$SHOW_DETAIL_SCREEN/${student.id}")
                 }) {
 
             AsyncImage(

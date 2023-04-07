@@ -17,6 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.currentBackStackEntryAsState
 
+
+
 @Composable
 fun BottomNav(navController: NavController) {
     val items = listOf(
@@ -58,8 +60,6 @@ fun BottomNav(navController: NavController) {
         }
     }
 }
-
-
 
 sealed class BottomNavItems(var title:String, var icon:Int, var screen_route:String){
 
